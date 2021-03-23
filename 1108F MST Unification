@@ -1,0 +1,51 @@
+#include <bits/stdc++.h> 	
+#define ll long long 
+using namespace std;
+ 
+const int  mxn = 2e5 + 5 , mod = 1e9 + 7 , inf = 0x3f , mod2 = 999119999 , mod3 = 1000992299 , pow1 = 31 , pow2 = 53 , Sqrt = 317 ;
+void seif(){
+	ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+}
+int n , m , out;
+set<int>c;
+map<int , vector<array<int,2>>>mp;
+int par[mxn];
+int find_par(int node){
+	return par[node] = node == par[node] ? node : find_par(par[node]);
+}
+void un(int a , int b){
+	par[find_par(a)] = find_par(b);
+}
+int main(){
+	//freopen("a.txt","rt" , stdin);
+	//freopen("b.txt","w" , stdout);
+	seif();
+	cin>>n>>m;
+	for(int i = 1 ; i <= n ; i++)
+		par[i] = i;
+	for(int i = 0 ; i < m ; i++){
+		int u , v , w;
+		cin>>u>>v>>w;
+		c.insert(w);
+		mp[w].push_back({u , v});
+	}
+	int can , done;
+	for(auto it2 : c){
+		can = done = 0;
+		for(auto it : mp[it2]){
+			int u = it[0] , v = it[1];
+			if(find_par(u) != find_par(v))
+				can++;
+		}
+		for(auto it : mp[it2]){
+			int u = it[0] , v = it[1];
+			if(find_par(u) != find_par(v)){
+				done++ ;
+				un(u , v);
+			}
+		}
+		out += can - done;
+	}
+	cout<<out;
+	return 0; 
+}
