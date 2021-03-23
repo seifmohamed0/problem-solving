@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/detail/standard_policies.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag,
+		tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag,
+		tree_order_statistics_node_update> indexed_multiset;
+		
+ 
+long long mxn = 1e18;
+set<long long>s;
+vector<long long>vi;
+int main(){
+	for(long long i = 2 ;i <= 1000000 ; i++){
+		long long p = i*i*i;
+		while( mxn/i > p){
+			s.insert(p);
+			p*=i;
+		}
+		s.insert(p);
+	}
+	
+	for(auto it : s){
+		long long ss = sqrt(it);
+		if(ss*ss==it)continue;
+		vi.push_back(it);
+	}
+	int q;cin>>q;
+	while(q--){
+		long long left , right;
+		cin>>left>>right;
+		long long lpl = lower_bound(vi.begin() , vi.end() , left ) - vi.begin();
+		lpl+=(long long)sqrt(left-1);
+		long long rpl = lower_bound(vi.begin() , vi.end() , right + 1) - vi.begin();
+		rpl+=(long long)sqrt(right);
+		cout<<max(0ll,rpl-lpl)<<endl;
+	}
+	
+	return 0;
+}
