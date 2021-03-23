@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+#define ll long long 
+using namespace std;
+const int  mxn = 2e5 + 5 , N = 8e1 + 5 , mod = 1e9 + 7 , inf = 0x3f;
+void sfsf(){
+	ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+}
+ll n, a[mxn*2], sum[mxn*2];
+int main(){
+	//freopen("a.txt","rt" , stdin);
+	//freopen("b.txt","w" , stdout);
+	sfsf();
+	cin>>n;
+	for(int i=1; i<=n; i++) {
+		cin>>a[i];
+		a[i+n] = a[i];
+		sum[i+n] = a[i];
+		sum[i] = a[i];
+	}
+	for(int i=3; i<=n*2; i++) {
+		sum[i] += sum[i-2];
+	}
+	ll ans = 0;
+	for(int i=n+1; i<=n*2; i++) 
+		ans = max(ans, sum[i]-sum[i-n-1]);
+	cout<<ans;
+	return 0;
+}	
