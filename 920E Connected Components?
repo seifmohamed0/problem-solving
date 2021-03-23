@@ -1,0 +1,65 @@
+    #include <bits/stdc++.h>
+    using namespace std;
+    #define Yalla3lshanMst3gla ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+    #define ll long long
+    const int mxn = 2e5 + 5 , mod = 1e9 + 7 , MOD = 1e9 + 7 , mod2 = 998244353;
+    int n , m ;
+    set<int>vi[mxn];
+    set<int>st;
+    int cnt ;
+    vector<int>out;
+    bool exist[mxn];
+    void dfs(int node){
+    	++cnt;
+    	vector<int>can;
+    	for(auto it : st){
+    		if(vi[it].find(node) == vi[it].end()){
+    			can.push_back(it);
+    		}
+    	}
+    	for(auto it : can){
+    		st.erase(it);
+    		exist[it] = false;
+    	}
+    	for(auto it : can)
+    		dfs(it);
+    }
+    void shof_anta_ray7_fen(){
+    	cin>>n>>m;
+    	for(int i = 1; i <= n ; i++){
+    		st.insert(i);
+    		exist[i] = true;
+    	}
+    	for(int i = 0; i < m ; i++){
+    		int u , v;
+    		cin>>u>>v;
+    		vi[u].insert(v);
+    		vi[v].insert(u);
+    	}
+    	for(int i = 1 ; i <= n ; i++){
+    		if(exist[i]){
+    			exist[i] = false;
+    			st.erase(st.find(i));
+    			cnt = 0;
+    			dfs(i);
+    			out.push_back(cnt);
+    		}
+    	}
+    	sort(out.begin() , out.end());
+    	cout<<out.size()<<endl;
+    	for(auto it : out)
+    		cout<<it<<" ";
+    }
+    int main() {
+    	Yalla3lshanMst3gla
+    #ifdef LOCAL
+    	freopen("input.in", "rt", stdin);
+    //	freopen("output.in", "wt", stdout);
+    #endif
+    	int t = 1;
+    	//cin>>t;
+    	while(t--){
+    		shof_anta_ray7_fen();
+    	}
+    	return 0;
+    }
