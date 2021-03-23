@@ -1,0 +1,77 @@
+    #include <bits/stdc++.h>
+    using namespace std;
+    #define Yalla3lshanMst3gla ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+    #define ll long long
+    const int mxn = 1e3 + 5;
+    int n , m , k;
+    vector<array<int,2>>vi[mxn];
+    int d[mxn][mxn];
+    bool vis[mxn];
+    void dij1(int node){
+    	if(vis[node])return;
+    	vis[node] = true;
+    	for(int i = 1; i <= n ; i++)
+    		d[node][i] = 1e9;
+    	priority_queue<array<int,2>>pq;
+    	pq.push({0 , node});
+    	d[node][node] = 0;
+    	while(pq.size()){
+    		array<int,2>curr = pq.top();
+    		pq.pop();
+    		curr[0] *= -1;
+    		if(d[node][curr[1]] < curr[0])continue;
+    		for(auto it : vi[curr[1]]){
+    			if(curr[0] + it[1] < d[node][it[0]]){
+    				d[node][it[0]] = curr[0] + it[1];
+    				pq.push({(curr[0] + it[1]) * -1 , it[0]});
+    			}
+    		}
+    	}
+    }
+     
+    void shof_anta_ray7_fen(){
+    	cin>>n>>m>>k;
+    	vector<array<int,2>>edges;
+    	for(int i = 0; i < m ; i++){
+    		int u , v , w;
+    		cin>>u>>v>>w;
+    		vi[u].push_back({v , w});
+    		vi[v].push_back({u , w});
+    		edges.push_back({u , v});
+    	}
+    	vector<array<int,2>>e;
+    	for(int i = 0; i < k ; i++){
+    		int a , b;
+    		cin>>a>>b;
+    		dij1(a);
+    		dij1(b);
+    		e.push_back({a,b});
+    	}
+    	int out = 1e9;
+    	for(int i = 0; i < m ; i++){
+    		int from = edges[i][0] , to = edges[i][1];
+    		int curr = 0;
+    		for(int j = 0; j < k ; j++){
+    			int a = e[j][0] , b = e[j][1];
+    			int pp = 1e9 ;
+    			pp = min({d[a][b] , d[a][from] +d[b][to]  , d[b][from] + d[a][to]});
+    			curr += pp;
+    		}
+    		out = min(out , curr);
+    	}
+    	cout<<out;
+     
+    }
+    int main() {
+    	Yalla3lshanMst3gla
+    #ifdef LOCAL
+    	freopen("input.in", "rt", stdin);
+    //	freopen("output.in", "wt", stdout);
+    #endif
+    	int t = 1;
+    	//cin>>t;
+    	while(t--){
+    		shof_anta_ray7_fen();
+    	}
+    	return 0;
+    }
