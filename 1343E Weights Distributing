@@ -1,0 +1,63 @@
+    #include <bits/stdc++.h> 
+    #define ll long long 
+    using namespace std;
+    const int  mxn = 2e5 + 5 , N = 8e1 + 5 , mod = 1e9 + 7 , inf = 0x3f;
+    void sfsf(){
+    	ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+    }
+    ll d[mxn][3];
+    vector<int>vi[mxn];
+    void bfs(int node , int pl){
+    	bitset<mxn>vis;
+    	queue<int>q;
+    	q.push(node);
+    	vis[node] = true;
+    	while(q.size()){
+    		int curr = q.front();
+    		q.pop();
+    		for(auto it : vi[curr]){
+    			if(!vis[it]){
+    				d[it][pl] = d[curr][pl] + 1;
+    				q.push(it);
+    				vis[it] = true; 
+    			}
+    		}
+    	}
+    }
+    int main(){
+    	//freopen("a.txt","rt" , stdin);
+    	//freopen("b.txt","w" , stdout);
+    	sfsf();		
+    	int t ;
+    	cin>>t;
+    	while(t--){
+    		int n , m , a , b , c;
+    		cin>>n>>m>>a>>b>>c;
+    		vector<ll>cost(m + 1);
+    		for(int i = 1 ; i<= m ; i++)
+    			cin>>cost[i];
+    		sort(cost.begin() , cost.end());
+    		for(int i = 1 ; i <= m ; i++)
+    			cost[i] += cost[i - 1];
+    		for(int i =  1; i <= n ; i++)
+    			vi[i].clear();
+    		memset(d , 0 , sizeof(d));
+    		for(int i = 0; i < m ; i++){
+    			int u , v;
+    			cin>>u>>v;
+    			vi[u].push_back(v);
+    			vi[v].push_back(u);
+    		}
+    		bfs(a , 0);
+    		bfs(b , 1);
+    		bfs(c , 2);
+    		ll ans = LONG_LONG_MAX;
+    		for(int i = 1 ; i <= n ; i++){
+    			int aa = d[i][0] , bb = d[i][1] , cc = d[i][2];
+    			if(aa + bb + cc > m)continue;
+    			ans = min(ans , cost[aa + bb + cc ] + cost[bb ]);
+    		}
+    		cout<<ans<<endl;
+    	}
+    	return 0;
+    }
