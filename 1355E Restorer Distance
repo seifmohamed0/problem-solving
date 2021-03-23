@@ -1,0 +1,34 @@
+    #include <bits/stdc++.h> 
+    using namespace std; 
+    long long arr[100005];
+    long long sum = 0;
+    int n , a , r , m;
+    long long g(long long num){
+    	long long pl = 0 , mi = 0;
+    	for(int i = 0; i < n ; i++){
+    		if(arr[i] > num)mi+=arr[i]-num;
+    		else pl += num - arr[i];
+    	}
+    	long long ret = pl * a + mi * r , mm = min(pl , mi);
+    	pl-=mm;mi-=mm;
+    	return min(ret , pl*a + mi*r +mm*m );
+    }
+    int main() 
+    {
+    	cin>>n>>a>>r>>m;
+    	for(int i = 0; i < n ; i++){
+    		cin>>arr[i];
+    		sum += arr[i];
+    	}
+    	long long st = 1 , en = 1e9 , mid;
+    	while(en > st){
+    		mid = (st+en+1) /2;
+    		if(g(mid-1) >= g(mid))
+    			st = mid;
+    		else en = mid - 1;
+    	}
+    	long long ans = min(g(0) , g(st));
+    	cout<<ans;
+    	return 0;
+    }  
+     
