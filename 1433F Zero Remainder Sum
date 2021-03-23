@@ -1,0 +1,56 @@
+
+Copy
+
+    #include <bits/stdc++.h>
+    using namespace std;
+    #define Yalla3lshanMst3gla ios::sync_with_stdio(0);cin.tie(nullptr);cout.tie(nullptr);
+    #define ll long long
+    const int mxn = 73;
+    int arr[mxn][mxn];
+    int n , m , k;
+    int dp[mxn][mxn][mxn][mxn / 2 + 5];
+    bool vis[mxn][mxn][mxn][mxn / 2 + 5];
+    int half;
+    int solve(int x , int y , int rem , int taken){
+    	if(taken == half || y == m){
+    		return solve(x + 1 , 0 , rem , 0);
+    	}
+    	if(x == n){
+    		if(!rem)return 0;
+    		else return -1e9;
+    	}
+    	if(vis[x][y][rem][taken])
+    		return dp[x][y][rem][taken];
+    	vis[x][y][rem][taken] = true;
+    	int ret = 0;
+    	ret = solve(x  , y + 1 , rem , taken);
+    	ret = max(solve(x , y + 1 , (rem + arr[x][y])%k , taken + 1) + arr[x][y], ret);
+    	return dp[x][y][rem][taken] = ret;
+    }
+    void shof_anta_ray7_fen(){
+    	cin>>n>>m>>k;
+    	half = m / 2;
+    	if(m == 1){
+    		cout<<0;
+    		return ;
+    	}
+    	for(int i =  0 ; i <n ; i++){
+    		for(int j = 0 ; j < m ; j++){
+    			cin>>arr[i][j];
+    		}
+    	}
+    	cout<<solve(0 , 0 , 0 , 0);
+    }
+    int main() {
+    	Yalla3lshanMst3gla
+    #ifdef LOCAL
+    	freopen("input.in", "rt", stdin);
+    //	freopen("output.in", "wt", stdout);
+    #endif
+    	int t = 1;
+    	//cin>>t;
+    	while(t--){
+    		shof_anta_ray7_fen();
+    	}
+    	return 0;
+    }
